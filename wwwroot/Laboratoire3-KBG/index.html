@@ -10,14 +10,85 @@
 </head>
 <body>
     
+    <header class="entête">
+            <div class="titre-page">Gestionnaire de nouvelles</div>
 
+            <div id="add-news-icon" class="icon fa-regular fa-square-plus" title="Ajouter une nouvelle"></div>
+    </header>
+
+    <div id="nouvelleDialog">
+        <form id="nouvelleForm">
+            <input type="hidden" id="id_nouvelle" value="0">
+            <hr>
+            <input type="text" class="input-form" id="category_nouvelle" placeholder="Catégorie..." required>
+            <hr>
+            <input type="text" class="input-form" id="titre_nouvelle" placeholder="Titre..." required>
+            <hr>
+            <input type="text" class="input-form" id="texte_nouvelle" placeholder="Texte..." required>
+            <hr>
+            <input type="text" class="input-form" id="imageUrl_nouvelle" placeholder="Url de l'image..." required>
+            <hr>
+            <input type="text" class="input-form" id="date_nouvelle" placeholder="Date..." required>
+            <hr>
+        </form>
+    </div>
+
+    <div class="wrapper">
+
+    </div>
 
 
 
     <script src="scripts/api-server.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-    <script>
-        
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script defer>
+
+        let currentEtag = "";
+
+
+
+
+        //Dialoge pour ajouter une nouvelle
+
+        function AddNewsSuccess()
+        {
+            alert("Cette nouvelle a été correctement ajouter!");
+        }
+        $("#nouvelleDialog").dialog(
+        {
+            title: "Nouvelle chronique",
+            autoOpen: false,
+            show: { effect: 'fade', speed: 250 },
+            hide: { effect: 'fade', speed: 250 },
+        });
+
+        $("#nouvelleDialog").dialog("option", "buttons",
+        [
+            {
+                id: "nouvelleDialogAcceptBtn",
+                text: "Ajouter...",
+                click: function(){
+                    //Caller fonction pour ajouter nouvelles
+                    AddNewsSuccess();
+                    $(this).dialog('close');
+                }
+
+            },
+
+            {
+                id: "nouvelleDialogCancelBtn",
+                text: "Annuler...",
+                click: function(){
+                    $(this).dialog('close');
+                }
+
+            }
+        ]);
+
+        $("#add-news-icon").click((e) =>{
+            $("#nouvelleDialog").dialog('open');
+        })
     </script>
 </body>
 </html>
