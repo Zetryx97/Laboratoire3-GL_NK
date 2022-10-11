@@ -46,7 +46,7 @@ form{
     justify-content: center;
     align-items: center;
     width: 40%;
-    gap: 3rem;
+    gap: 5rem;
     flex-wrap: wrap;
 }
 .box-news{
@@ -57,7 +57,9 @@ form{
     font-size: 2rem;
     background-color: lightskyblue;
 }
-.box-news:hover{
-    cursor: pointer;
-    opacity: 0.6;
+.container{
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 20%;
 }
