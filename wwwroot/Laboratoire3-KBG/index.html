@@ -90,10 +90,37 @@
 
             }
         ]);
+        $("#confirmDlg").dialog("option", "buttons",
+                [
+                    {
+                        id: "confirmDlgOkBtn",
+                        text: "Oui",
+                        click: function () {
+                            holdCheckETag = false;
+                            if (bookmarkIdToDelete)
+                                DELETE(bookmarkIdToDelete, refreshBookmarksList, error);
+                            bookmarkIdToDelete = 0;
+                            $(this).dialog("close");
+                        }
+                    },
+                    {
+                        text: "Annuler",
+                        click: function () {
+                            holdCheckETag = false;
+                            bookmarkIdToDelete = 0;
+                            $(this).dialog("close");
+                        }
+                    }
+                ]);
 
         $("#add-news-icon").click((e) =>{
             $("#nouvelleDialog").dialog('open');
         });
+
+        $("#add-news-icon").click((e) =>{
+            $("#nouvelleDialog").dialog('open');
+        });
+        
 
 
         //Show All news
@@ -104,14 +131,16 @@
             let titleElement = $(`<div>${nouvelle.Title}</div>`);
             let textElement = $(`<div>${nouvelle.Text}</div>`);
             let dateElement = $(`<div>${nouvelle.Date}</div>`);
+            let deleteIcon = $(`<div <i class="fa-solid fa-trash"></div>`)
 
             let nouvelleRow = $(`<div class="box-news"></div>`);
 
             
             nouvelleRow.append(imageUrlElement);
             nouvelleRow.append(categoryElement);
+            nouvelleRow.append(deleteIcon)
             nouvelleRow.append("<hr>");
-            nouvelleRow.append(titleElement);
+            nouvelleRow.append(titleElement);            
             nouvelleRow.append(textElement);
             nouvelleRow.append("<br/>")
             nouvelleRow.append(dateElement);
@@ -154,6 +183,16 @@
 
             return nouvelle;
         }
+
+
+        function DELETE(id, successCallBack, errorCallBack) {
+                $.ajax({
+                    url: apiBaseURL + "/" + id,
+                    type: 'DELETE',
+                    success: () => { successCallBack() },
+                    error: function (jqXHR) { errorCallBack(jqXHR.status) }
+                });
+            }
     </script>
 </body>
 </html>
