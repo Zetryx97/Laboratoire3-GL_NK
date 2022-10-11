@@ -155,7 +155,7 @@
             let titleElement = $(`<div>${nouvelle.Title}</div>`);
             let textElement = $(`<div>${nouvelle.Text}</div>`);
             let dateElement = $(`<div>${nouvelle.Date}</div>`);
-            let deleteIcon = $(`<div <i class="icon fa-solid fa-trash"></div>`)
+            let deleteIcon = $(`<div id="delete-cmd "class="icon fa-solid fa-trash" nouvelleid=${nouvelle.Id} title="Supprimer ${nouvelle.Title}"></div>`)
 
             let nouvelleRow = $(`<div class="box-news"></div>`);
 
@@ -227,6 +227,15 @@
             $("#nouvelleDialog").dialog('option', 'title', 'Modification de nouvelle');
             $("#nouvelleDialogAcceptBtn").text("Modifier");
             $("#nouvelleDialog").dialog('open');
+        }
+        //Delete bookmark
+
+        let newsIdToDelete =0;
+        function newsToDelet(e){
+            isCreateMode = false;
+            newsIdToDelete = e.target.getAttribute("nouvelleid");
+            GET_ID();
+
         }
     </script>
 </body>
