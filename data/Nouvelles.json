@@ -1,5 +1,13 @@
 [
   {
+    "Id": 2,
+    "Category": "Politique",
+    "Title": "Paul St-Pierre Plamondon refusera de prêter serment au roi",
+    "Text": "aul St-Pierre Plamondon, chef du Parti québécois (PQ), veut prêter serment au peuple québécois plutôt qu'à la couronne britannique lors de son assermentation le 21 octobre. Il en a fait la demande formelle à l'Assemblée nationale.",
+    "ImageUrl": "https://images.radio-canada.ca/q_auto,w_960/v1/ici-info/16x9/paul-saint-pierre-plamondon-chef-pq.JPG",
+    "Date": "2022-10-11"
+  },
+  {
     "Id": 1,
     "Category": "Sport",
     "Title": "Les Giants causent la surprise en battant les Packers à Londre",
