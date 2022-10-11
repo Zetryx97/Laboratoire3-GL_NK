@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/site-nouvelles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet"> <!--// lien pour avoir accès au icon-->
+    <link rel="stylesheet"
+            href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"> 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awegsome/6.2.0/css/all.min.css" rel="stylesheet"> <!--// lien pour avoir accès au icon-->
     <title>Laboratoire 3</title>
 </head>
@@ -33,7 +36,10 @@
         </form>
     </div>
 
-    <div class="wrapper-news" id="news-list">
+    <div class="container">
+        <div class="wrapper-news" id="news-list"></div>
+    </div>
+    
 
     </div>
 
@@ -45,6 +51,7 @@
     <script defer>
 
         let currentEtag = "";
+        let isCreateMode = true;
 
 
         HEAD(checkETag);
@@ -58,7 +65,12 @@
 
         function AddNewsSuccess()
         {
-            alert("Cette nouvelle a été correctement ajouter!");
+            alert("Cette nouvelle a été correctement ajoutée!");
+        }
+
+        function EditNewsSuccess()
+        {
+            alert("Cette nouvelle a été correctement modifié!"); 
         }
         $("#nouvelleDialog").dialog(
         {
@@ -74,8 +86,19 @@
                 id: "nouvelleDialogAcceptBtn",
                 text: "Ajouter...",
                 click: function(){
-                    //Caller fonction pour ajouter nouvelles
-                    AddNewsSuccess();
+                    let nouvelle = GetNewsFromForm();
+                    if(isCreateMode)
+                    {
+                        POST(nouvelle, ShowNewsList,error);
+                        AddNewsSuccess();
+                    }
+                        
+                    else{
+                        PUT(nouvelle,ShowNewsList,error);
+                        EditNewsSuccess();
+                    }
+                        
+                    
                     $(this).dialog('close');
                 }
 
@@ -128,16 +151,18 @@
         {
             let imageUrlElement = $(`<img class="image-dimension" src=${nouvelle.ImageUrl}>`);
             let categoryElement = $(`<div>${nouvelle.Category}</div>`);
+            let editCommand = $(`<div id="edit-cmd" class="icon fa-solid fa-pen-to-square" nouvelleid=${nouvelle.Id} title="Éditer ${nouvelle.Title}"></div>`);
             let titleElement = $(`<div>${nouvelle.Title}</div>`);
             let textElement = $(`<div>${nouvelle.Text}</div>`);
             let dateElement = $(`<div>${nouvelle.Date}</div>`);
-            let deleteIcon = $(`<div <i class="fa-solid fa-trash"></div>`)
+            let deleteIcon = $(`<div <i class="icon fa-solid fa-trash"></div>`)
 
             let nouvelleRow = $(`<div class="box-news"></div>`);
 
             
             nouvelleRow.append(imageUrlElement);
             nouvelleRow.append(categoryElement);
+            nouvelleRow.append(editCommand);
             nouvelleRow.append(deleteIcon)
             nouvelleRow.append("<hr>");
             nouvelleRow.append(titleElement);            
@@ -146,7 +171,7 @@
             nouvelleRow.append(dateElement);
 
             $("#news-list").append(nouvelleRow);
-        }   
+        }
 
         function ShowNewsList(nouvelles, ETag)
         {
@@ -156,6 +181,7 @@
             {
                 insertIntoNewsList(nouvelle);
             }
+            $("#edit-cmd").click((e) => { EditNews(e) })
         }
 
         function getNewsList()
@@ -176,23 +202,32 @@
         }
 
         //Create nouvelle
-
         function GetNewsFromForm()
         {
-            let nouvelle = {Id: parseInt($("#id_nouvelle").val())};
+            let nouvelle = {Id: parseInt($("#id_nouvelle").val()), Category: $("#category_nouvelle").val(), Title: $("#titre_nouvelle").val(), Text: $("#texte_nouvelle").val(), ImageUrl: $("#imageUrl_nouvelle").val(), Date: $("#date_nouvelle").val() };
 
             return nouvelle;
         }
 
+        //Edit news
+        function NewsToForm(nouvelle)
+        {
+            $("#id_nouvelle").val(nouvelle.Id);
+            $("#category_nouvelle").val(nouvelle.Category);
+            $("#titre_nouvelle").val(nouvelle.Title);
+            $("#texte_nouvelle").val(nouvelle.Text);
+            $("#imageUrl_nouvelle").val(nouvelle.ImageUrl);
+            $("#date_nouvelle").val(nouvelle.Date);
 
-        function DELETE(id, successCallBack, errorCallBack) {
-                $.ajax({
-                    url: apiBaseURL + "/" + id,
-                    type: 'DELETE',
-                    success: () => { successCallBack() },
-                    error: function (jqXHR) { errorCallBack(jqXHR.status) }
-                });
-            }
+        }
+        function EditNews(e)
+        {
+            isCreateMode = false;
+            GET_ID(e.target.getAttribute("nouvelleid"), NewsToForm,error);
+            $("#nouvelleDialog").dialog('option', 'title', 'Modification de nouvelle');
+            $("#nouvelleDialogAcceptBtn").text("Modifier");
+            $("#nouvelleDialog").dialog('open');
+        }
     </script>
 </body>
 </html>
