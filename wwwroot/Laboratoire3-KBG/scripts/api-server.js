@@ -1,3 +1,6 @@
+
+ const apiBaseURL = "http://localhost:5000/api/nouvelles";
+
 function HEAD(successCallBack) {
     $.ajax({
         url: apiBaseURL,

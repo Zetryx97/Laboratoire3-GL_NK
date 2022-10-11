@@ -33,7 +33,7 @@
         </form>
     </div>
 
-    <div class="wrapper">
+    <div class="wrapper-news" id="news-list">
 
     </div>
 
@@ -47,6 +47,11 @@
         let currentEtag = "";
 
 
+        HEAD(checkETag);
+
+
+        function error(status) {
+        }
 
 
         //Dialoge pour ajouter une nouvelle
@@ -88,7 +93,67 @@
 
         $("#add-news-icon").click((e) =>{
             $("#nouvelleDialog").dialog('open');
-        })
+        });
+
+
+        //Show All news
+        function insertIntoNewsList(nouvelle)
+        {
+            let imageUrlElement = $(`<img class="image-dimension" src=${nouvelle.ImageUrl}>`);
+            let categoryElement = $(`<div>${nouvelle.Category}</div>`);
+            let titleElement = $(`<div>${nouvelle.Title}</div>`);
+            let textElement = $(`<div>${nouvelle.Text}</div>`);
+            let dateElement = $(`<div>${nouvelle.Date}</div>`);
+
+            let nouvelleRow = $(`<div class="box-news"></div>`);
+
+            
+            nouvelleRow.append(imageUrlElement);
+            nouvelleRow.append(categoryElement);
+            nouvelleRow.append("<hr>");
+            nouvelleRow.append(titleElement);
+            nouvelleRow.append(textElement);
+            nouvelleRow.append("<br/>")
+            nouvelleRow.append(dateElement);
+
+            $("#news-list").append(nouvelleRow);
+        }
+
+        function ShowNewsList(nouvelles, ETag)
+        {
+            currentEtag = ETag;
+            $("#news-list").empty();
+            for(let nouvelle of nouvelles)
+            {
+                insertIntoNewsList(nouvelle);
+            }
+        }
+
+        function getNewsList()
+        {
+            let queryString = "?sort=Date,desc";
+            GET_ALL(ShowNewsList,error,queryString);
+        }
+
+
+
+        function checkETag(ETag)
+        {
+            if(ETag != currentEtag)
+            {
+                currentEtag = ETag;
+                getNewsList();
+            }
+        }
+
+        //Create nouvelle
+
+        function GetNewsFromForm()
+        {
+            let nouvelle = {Id: parseInt($("#id_nouvelle").val())};
+
+            return nouvelle;
+        }
     </script>
 </body>
 </html>
