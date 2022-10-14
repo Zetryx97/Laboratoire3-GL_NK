@@ -8,7 +8,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet"> <!--// lien pour avoir accès au icon-->
     <link rel="stylesheet"
             href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"> 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awegsome/6.2.0/css/all.min.css" rel="stylesheet"> <!--// lien pour avoir accès au icon-->
     <title>Laboratoire 3</title>
 </head>
 <body>
@@ -34,6 +33,9 @@
             <input type="text" class="input-form" id="date_nouvelle" placeholder="Date..." required>
             <hr>
         </form>
+        <span id="dialogConfirm">
+            <span id="confirmMessageDelete"></span>
+        </span>
     </div>
 
     <div class="container">
@@ -133,12 +135,8 @@
                             bookmarkIdToDelete = 0;
                             $(this).dialog("close");
                         }
-                    }
+                    }  
                 ]);
-
-        $("#add-news-icon").click((e) =>{
-            $("#nouvelleDialog").dialog('open');
-        });
 
         $("#add-news-icon").click((e) =>{
             $("#nouvelleDialog").dialog('open');
@@ -155,7 +153,8 @@
             let titleElement = $(`<div>${nouvelle.Title}</div>`);
             let textElement = $(`<div>${nouvelle.Text}</div>`);
             let dateElement = $(`<div>${nouvelle.Date}</div>`);
-            let deleteIcon = $(`<div <i class="icon fa-solid fa-trash"></div>`)
+            let deleteIcon = $(`<div id="delete-cmd "class="icon fa-solid fa-trash" nouvelleid=${nouvelle.Id} title="Supprimer ${nouvelle.Title}"></div>`)
+
             let nouvelleRow = $(`<div class="box-news"></div>`);
 
             
@@ -180,7 +179,9 @@
             {
                 insertIntoNewsList(nouvelle);
             }
-            $("#edit-cmd").click((e) => { EditNews(e) })
+            $("#edit-cmd").click((e) => { EditNews(e); })
+
+            $("#delete-cmd").click((e) => { newsToDelete(e); })
         }
 
         function getNewsList()
@@ -227,6 +228,25 @@
             $("#nouvelleDialogAcceptBtn").text("Modifier");
             $("#nouvelleDialog").dialog('open');
         }
-    </script>
+        //Delete bookmark
+
+        function setDeleteMessage(nouvelle)
+        {
+            $("#confirmMessageDelete").html("Voulez-vous vraiment supprimer la nouvelle <b>" + nouvelle.Title + "</b>? ")
+        }
+
+        let newsIdToDelete =0;
+        function newsToDelete(e){
+            isCreateMode = false;
+            newsIdToDelete = e.target.getAttribute("nouvelleid");
+            GET_ID(e.target.getAttribute("nouvelleid"),setDeleteMessage,error);
+            $("#dialogConfirm").dialog('option', 'title', 'Retrait de nouvelle...');
+            $("#confirmDlgOkBtn").text("Effacer");
+            $("#dialogConfirm").dialog('open');
+
+        }
+
+        $("#dialogConfirm").dialog("options", "button")
+g    </script>
 </body>
 </html>
