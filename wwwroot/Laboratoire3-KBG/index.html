@@ -246,7 +246,36 @@
 
         }
 
-        $("#dialogConfirm").dialog("options", "button")
+        $("#dialogConfirm").dialog(
+                {
+                    title: "Attention...",
+                    autoOpen: false,
+                    show: { effect: 'fade', speed: 400 },
+                    hide: { effect: 'fade', speed: 400 },
+                });
+            $("#dialogConfirm").dialog("option", "position", { my: "top", at: "top", of: window });
+
+        $("#dialogConfirm").dialog("options", "button", 
+        [
+            {
+                id: "confirmDlgOkBtn",
+                text: "Oui",
+                click: function(){
+                    if(newsIdToDelete)
+                        DELETE(newsIdToDelete, ShowNewsList, error);
+                    newsIdToDelete = 0;
+                    $(this).dialog("close");
+                }
+            },
+
+            {
+                text: "Annuler",
+                click: function(){
+                    newsIdToDelete = 0;
+                    $(this).dialog("close");
+                }
+            }
+        ]);
     </script>
 </body>
 </html>
