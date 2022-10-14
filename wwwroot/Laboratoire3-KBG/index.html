@@ -149,11 +149,11 @@
         {
             let imageUrlElement = $(`<img class="image-dimension" src=${nouvelle.ImageUrl}>`);
             let categoryElement = $(`<div>${nouvelle.Category}</div>`);
-            let editCommand = $(`<div id="edit-cmd" class="icon fa-solid fa-pen-to-square" nouvelleid=${nouvelle.Id} title="Éditer ${nouvelle.Title}"></div>`);
+            let editCommand = $(`<div class="icon fa-solid fa-pen-to-square edit-cmd" nouvelleid=${nouvelle.Id} title="Éditer ${nouvelle.Title}"></div>`);
             let titleElement = $(`<div>${nouvelle.Title}</div>`);
             let textElement = $(`<div>${nouvelle.Text}</div>`);
             let dateElement = $(`<div>${nouvelle.Date}</div>`);
-            let deleteIcon = $(`<div id="delete-cmd "class="icon fa-solid fa-trash" nouvelleid=${nouvelle.Id} title="Supprimer ${nouvelle.Title}"></div>`)
+            let deleteIcon = $(`<div class="icon fa-solid fa-trash delete-cmd" nouvelleid=${nouvelle.Id} title="Supprimer ${nouvelle.Title}"></div>`)
 
             let nouvelleRow = $(`<div class="box-news"></div>`);
 
@@ -179,9 +179,9 @@
             {
                 insertIntoNewsList(nouvelle);
             }
-            $("#edit-cmd").click((e) => { EditNews(e); })
+            $(".edit-cmd").click((e) => { EditNews(e); })
 
-            $("#delete-cmd").click((e) => { newsToDelete(e); })
+            $(".delete-cmd").click((e) => { newsToDelete(e); })
         }
 
         function getNewsList()
@@ -255,7 +255,7 @@
                 });
             $("#dialogConfirm").dialog("option", "position", { my: "top", at: "top", of: window });
 
-        $("#dialogConfirm").dialog("options", "button", 
+        $("#dialogConfirm").dialog("option", "buttons", 
         [
             {
                 id: "confirmDlgOkBtn",
