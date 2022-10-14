@@ -18,10 +18,8 @@ body{
 .icon{
     font-size: 2rem;
     font-weight: bold;
-    color: red;
-}
-.icon:hover{
     cursor: pointer;
+    color: red;
 }
 .input-form{
     background: lightslategrey;
@@ -62,6 +60,18 @@ form{
 .container{
     display: flex;
     justify-content: center;
-    position: absolute;
-    top: 20%;
+    overflow-y: scroll;
+    height: 80vh;
+}
+.box-news >.icon{
+    display: none;
+}
+
+.box-news:hover >.icon{
+    cursor: pointer;
+    display: block;
+}
+.fav-icon{
+    width: 2rem;
+    height: 2rem;
 }
