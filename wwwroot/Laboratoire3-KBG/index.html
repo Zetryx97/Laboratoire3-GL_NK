@@ -33,6 +33,9 @@
             <input type="text" class="input-form" id="date_nouvelle" placeholder="Date..." required>
             <hr>
         </form>
+        <span id="dialogConfirm">
+            <span id="confirmMessageDelete"></span>
+        </span>
     </div>
 
     <div class="container">
@@ -138,10 +141,6 @@
         $("#add-news-icon").click((e) =>{
             $("#nouvelleDialog").dialog('open');
         });
-
-        $("#add-news-icon").click((e) =>{
-            $("#nouvelleDialog").dialog('open');
-        });
         
 
 
@@ -180,7 +179,9 @@
             {
                 insertIntoNewsList(nouvelle);
             }
-            $("#edit-cmd").click((e) => { EditNews(e) })
+            $("#edit-cmd").click((e) => { EditNews(e); })
+
+            $("#delete-cmd").click((e) => { newsToDelete(e); })
         }
 
         function getNewsList()
@@ -229,13 +230,23 @@
         }
         //Delete bookmark
 
+        function setDeleteMessage(nouvelle)
+        {
+            $("#confirmMessageDelete").html("Voulez-vous vraiment supprimer la nouvelle <b>" + nouvelle.Title + "</b>? ")
+        }
+
         let newsIdToDelete =0;
-        function newsToDelet(e){
+        function newsToDelete(e){
             isCreateMode = false;
             newsIdToDelete = e.target.getAttribute("nouvelleid");
-            GET_ID();
+            GET_ID(e.target.getAttribute("nouvelleid"),setDeleteMessage,error);
+            $("#dialogConfirm").dialog('option', 'title', 'Retrait de nouvelle...');
+            $("#confirmDlgOkBtn").text("Effacer");
+            $("#dialogConfirm").dialog('open');
 
         }
+
+        $("#dialogConfirm").dialog("options", "button")
     </script>
 </body>
 </html>
