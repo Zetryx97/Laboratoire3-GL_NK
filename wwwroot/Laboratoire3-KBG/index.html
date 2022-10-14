@@ -145,6 +145,8 @@
 
 
         //Show All news
+
+    
         function insertIntoNewsList(nouvelle)
         {
             let imageUrlElement = $(`<img class="image-dimension" src=${nouvelle.ImageUrl}>`);
@@ -152,11 +154,12 @@
             let editCommand = $(`<div class="icon fa-solid fa-pen-to-square edit-cmd" nouvelleid=${nouvelle.Id} title="Éditer ${nouvelle.Title}"></div>`);
             let titleElement = $(`<div>${nouvelle.Title}</div>`);
             let textElement = $(`<div>${nouvelle.Text}</div>`);
-            let dateElement = $(`<div>${nouvelle.Date}</div>`);
+            let dateElement = $(`<div>${parseInt(nouvelle.Date)}</div>`);
             let deleteIcon = $(`<div class="icon fa-solid fa-trash delete-cmd" nouvelleid=${nouvelle.Id} title="Supprimer ${nouvelle.Title}"></div>`)
 
             let nouvelleRow = $(`<div class="box-news"></div>`);
 
+            let dateOfficielle = convertToFrenchDate(parseInt(nouvelle.Date));
             
             nouvelleRow.append(imageUrlElement);
             nouvelleRow.append(categoryElement);
@@ -166,7 +169,7 @@
             nouvelleRow.append(titleElement);            
             nouvelleRow.append(textElement);
             nouvelleRow.append("<br/>")
-            nouvelleRow.append(dateElement);
+            nouvelleRow.append(dateOfficielle);
 
             $("#news-list").append(nouvelleRow);
         }

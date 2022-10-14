@@ -16,10 +16,12 @@ body{
 }
 
 .icon{
-    cursor: pointer;
     font-size: 2rem;
     font-weight: bold;
-    color: blueviolet;
+    color: red;
+}
+.icon:hover{
+    cursor: pointer;
 }
 .input-form{
     background: lightslategrey;
