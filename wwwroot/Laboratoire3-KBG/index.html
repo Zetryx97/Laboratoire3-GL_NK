@@ -101,11 +101,13 @@
                     {
                         POST(nouvelle, ShowNewsList,error);
                         AddNewsSuccess();
+                        getNewsList();
                     }
                         
                     else{
                         PUT(nouvelle,ShowNewsList,error);
                         EditNewsSuccess();
+                        getNewsList();
                     }
                         
                     
@@ -123,28 +125,6 @@
 
             }
         ]);
-        $("#confirmDlg").dialog("option", "buttons",
-                [
-                    {
-                        id: "confirmDlgOkBtn",
-                        text: "Oui",
-                        click: function () {
-                            holdCheckETag = false;
-                            if (bookmarkIdToDelete)
-                                DELETE(bookmarkIdToDelete, refreshBookmarksList, error);
-                            bookmarkIdToDelete = 0;
-                            $(this).dialog("close");
-                        }
-                    },
-                    {
-                        text: "Annuler",
-                        click: function () {
-                            holdCheckETag = false;
-                            bookmarkIdToDelete = 0;
-                            $(this).dialog("close");
-                        }
-                    }
-                ]);
 
         $("#add-news-icon").click((e) =>{
             $("#nouvelleDialog").dialog('open');
@@ -276,6 +256,7 @@
                         DELETE(newsIdToDelete, ShowNewsList, error);
                     newsIdToDelete = 0;
                     $(this).dialog("close");
+                    getNewsList();
                 }
             },
 
