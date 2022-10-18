@@ -41,8 +41,11 @@
         </span>
     </div>
 
-    <div class="container">
-        <div class="wrapper-news" id="news-list"></div>
+    <div class="main-container">
+        <div class="scrollContainer">
+            <div id="news-list"></div>
+        </div>
+       
     </div>
     
 
@@ -57,6 +60,8 @@
 
         let currentEtag = "";
         let isCreateMode = true;
+        let limit = 4;
+        let offset = 0;
 
 
         HEAD(checkETag);
@@ -192,7 +197,7 @@
 
         function getNewsList()
         {
-            let queryString = "?sort=Date,desc";
+            let queryString = `?sort=Date,desc&limit=${limit}&offset=${offset}`;
             GET_ALL(ShowNewsList,error,queryString);
         }
 
@@ -282,6 +287,19 @@
                 }
             }
         ]);
+            let isAtBottom = true;
+            let heightGap = 2;
+        $(".scrollContainer").scroll(function () {
+                    if ($(".scrollContainer").scrollTop() + $(".scrollContainer").innerHeight() >= $("#news-list").height() && isAtBottom) {
+                        isAtBottom = false;
+                    }
+                    if($(".scrollContainer").scrollTop() < $("#news-list").height() - $(".main-container").innerHeight()+heightGap && !isAtBottom){
+                        isAtBottom = true;  
+                        limit++;
+                        getNewsList();
+                    }
+                                        
+                });
     </script>
 </body>
 </html>
